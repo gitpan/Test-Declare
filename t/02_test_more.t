@@ -14,9 +14,6 @@ describe 'Test::More wrapper test' => run {
     test 'like' => run {
         like 'Fooooooooo', qr/Foo/;
     };
-    test 'is_deeply_array' => run {
-        is_deeply_array  [qw/3 2 1 4 5/], [qw/5 4 3 2 1/];
-    };
     test 'cmp_ok' => run {
         cmp_ok 'foo', 'eq' , 'foo';
     };

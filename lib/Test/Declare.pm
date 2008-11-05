@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use base 'Exporter';
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 my @test_more_exports;
 my @test_more_method;
@@ -25,13 +25,20 @@ BEGIN {
 
 use Test::More import => \@test_more_exports;
 use Test::Exception;
+use Test::Warn;
+use Test::Output;
 use Test::Deep;
 
 my @test_wrappe_method = qw(
-    is_deeply_array cmp_ok ok dies_ok throws_ok
+    cmp_ok ok dies_ok throws_ok
     is isnt is_deeply like unlike
-    isa_ok cmp_deeply re
+    isa_ok cmp_deeply re cmp_bag
     prints_ok stderr_ok
+    warning_like warnings_like warning_is warnings_are
+    stdout_is stdout_isnt stdout_like stdout_unlike
+    stderr_is stderr_isnt stderr_like stderr_unlike
+    combined_is combined_isnt combined_like combined_unlike
+    output_is output_isnt output_like output_unlike
 );
 
 my @test_method = (@test_wrappe_method, @test_more_method);
@@ -105,30 +112,6 @@ sub ok ($;$) { ## no critic
     goto $test_more_code, $test, $name||$test_block_name;
 }
 
-## original method
-sub is_deeply_array ($$;$) { ## no critic
-    my ($actual, $expected, $name) = @_;
-    is_deeply( [sort { $a cmp $b } @{$actual}], [sort { $a cmp $b } @{$expected}], $name);
-}
-
-use IO::Scalar;
-sub prints_ok (&$;$) { ## no critic
-    my ($code, $expected, $name) = @_;
-
-    tie *STDOUT, 'IO::Scalar', \my $stdout;
-        $code->();
-        like($stdout, qr/$expected/, $name||$test_block_name);
-    untie *STDOUT;
-}
-sub stderr_ok (&$;$) { ## no critic
-    my ($code, $expected, $name) = @_;
-
-    tie *STDERR, 'IO::Scalar', \my $stderr;
-        $code->();
-        like($stderr, qr/$expected/, $name||$test_block_name);
-    untie *STDERR;
-}
-
 1;
 
 __END__
@@ -182,6 +165,18 @@ Test::More and Test::Exception and Test::Deep wrapper module.
 =head1 BUGS AND LIMITATIONS
 
 No bugs have been reported.
+
+=head1 SEE ALSO
+
+This test module's core modules
+
+L<Test::More> and L<Test::Exception> and L<Test::Deep> and L<PPI>
+
+Test::Declare's sample tests
+
+L<DBIx::Class::TableNames> 's 01_table_names.t
+
+L<DBIx::Class::ProxyTable> 's 01_proxy.t
 
 =head1 AUTHOR
 

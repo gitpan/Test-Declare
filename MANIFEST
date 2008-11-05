@@ -26,8 +26,6 @@ t/00_compile.t
 t/01_base.t
 t/02_test_more.t
 t/03_test_exception.t
-t/04_prints_ok.t
-t/05_stderr_ok.t
 t/06_blocks.t
 t/98_perlcritic.t
 t/pod.t
