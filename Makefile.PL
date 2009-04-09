@@ -11,10 +11,13 @@ requires 'Test::Warn';
 requires 'Test::Output';
 requires 'IO::Scalar';
 
+author_tests('xt');
+
 use_test_base;
 build_requires 'Test::More';
 build_requires 'Test::Builder';
-build_requires 'Test::Perl::Critic';
+build_requires 'Test::Tester';
+build_requires 'YAML'; # Test::Base require this
 
 auto_include;
 WriteAll;

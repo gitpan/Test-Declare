@@ -1,3 +1,4 @@
+.shipit
 Changes
 inc/Module/Install.pm
 inc/Module/Install/Base.pm
@@ -15,7 +16,8 @@ inc/Test/Base/Filter.pm
 inc/Test/Builder.pm
 inc/Test/Builder/Module.pm
 inc/Test/More.pm
-inc/Test/Perl/Critic.pm
+inc/Test/Tester.pm
+inc/YAML.pm
 lib/Test/Declare.pm
 LICENSE
 Makefile.PL
@@ -26,6 +28,7 @@ t/00_compile.t
 t/01_base.t
 t/02_test_more.t
 t/03_test_exception.t
+t/04_auto_set_message.t
 t/06_blocks.t
-t/98_perlcritic.t
-t/pod.t
+xt/98_perlcritic.t
+xt/99_pod.t
