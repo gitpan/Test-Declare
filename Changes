@@ -1,5 +1,8 @@
 Revision history for Perl extension Test::Declare
 
+0.05 
+      - FIX: prototype bug fixed. (thanks tokuhirom)
+
 0.04 2009/04/09
       - FIX: auto set message and more (thanks tokuhirom)
 

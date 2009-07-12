@@ -10,6 +10,7 @@ requires 'Test::More';
 requires 'Test::Warn';
 requires 'Test::Output';
 requires 'IO::Scalar';
+requires 'Scalar::Util';
 
 author_tests('xt');
 

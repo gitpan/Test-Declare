@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use base 'Exporter';
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 my @test_more_exports;
 my @test_more_method;
@@ -28,6 +28,7 @@ use Test::Exception;
 use Test::Warn;
 use Test::Output;
 use Test::Deep;
+use Scalar::Util qw/set_prototype/;
 
 my @test_wrapper_method = qw(
     cmp_ok ok dies_ok throws_ok
@@ -91,12 +92,11 @@ sub blocks {
 {
     no strict 'refs'; ## no critic
     for my $sub (qw/is is_deeply like isa_ok isnt unlike/) {
-        *{"Test::Declare::${sub}"} = sub ($$;$) {
+        *{"Test::Declare::${sub}"} = set_prototype(sub {
             push @_, $test_block_name if @_ == 2;
             goto \&{"Test::More::${sub}"};
-        }
+        }, prototype("Test::More::${sub}"));
     }
-
 }
 
 sub cmp_ok ($$$;$) { ## no critic
