@@ -21,4 +21,5 @@ build_requires 'Test::Tester';
 build_requires 'YAML'; # Test::Base require this
 
 auto_include;
+auto_set_repository;
 WriteAll;

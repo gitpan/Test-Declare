@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use base 'Exporter';
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 my @test_more_exports;
 my @test_more_method;
@@ -91,22 +91,19 @@ sub blocks {
 ## Test::More wrapper
 {
     no strict 'refs'; ## no critic
-    for my $sub (qw/is is_deeply like isa_ok isnt unlike/) {
+    for my $sub (qw/is like isa_ok isnt unlike cmp_ok ok/) {
+        my $proto = prototype("Test::More::${sub}");
+        (my $args = $proto) =~ s/;.*//;
+        my $args_num = length $args;
         *{"Test::Declare::${sub}"} = set_prototype(sub {
-            push @_, $test_block_name if @_ == 2;
+            push @_, $test_block_name if @_ == $args_num;
             goto \&{"Test::More::${sub}"};
-        }, prototype("Test::More::${sub}"));
+        }, $proto);
     }
-}
-
-sub cmp_ok ($$$;$) { ## no critic
-    push @_, $test_block_name if @_ == 3;
-    goto \&Test::More::cmp_ok;
-}
-
-sub ok ($;$) { ## no critic
-    push @_, $test_block_name if @_ == 1;
-    goto \&Test::More::ok;
+    *{"Test::Declare::is_deeply"} = sub {
+        push @_, $test_block_name if @_ == 2;
+        goto \&{"Test::More::is_deeply"};
+    }
 }
 
 1;
@@ -137,7 +134,7 @@ Test::Declare - declarative testing
 
 =head1 DESCRIPTION
 
-Test::More and Test::Exception and Test::Deep wrapper module.
+Test::More, Test::Exception, Test::Deep, Test::Warn and Test::Output wrapper module.
 
 =head1 METHOD
 
@@ -178,6 +175,7 @@ L<DBIx::Class::ProxyTable> 's 01_proxy.t
 =head1 AUTHORS
 
 Atsushi Kobayashi  C<< <nekokak __at__ gmail.com> >>
+
 tokuhirom
 
 =head1 LICENCE AND COPYRIGHT

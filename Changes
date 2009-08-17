@@ -1,5 +1,8 @@
 Revision history for Perl extension Test::Declare
 
+0.06
+      - FIX: MANIFEST etc.(RT: #47537)
+
 0.05 
       - FIX: prototype bug fixed. (thanks tokuhirom)
 
